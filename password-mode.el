@@ -38,10 +38,10 @@
   :type 'hook
   :group 'password-mode)
 
-(defcustom password-mode-words
-  '("Password" "Passwort")
-  "Strings recognized as password prefix words"
-  :type '(repeat (string :tag "Password String")))
+(defcustom password-mode-password-prefix-regexs
+  '("Password:\s+" "Passwort:\s+")
+  "Regexs recognized as password prefix"
+  :type '(repeat (regexp :tag "Password Regex")))
 
 (defconst password-mode-shown-text
   (propertize
