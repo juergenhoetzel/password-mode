@@ -193,10 +193,15 @@ Lastly, the normal hook `password-mode-hook' is run using `run-hooks'.
 (defun password-mode-insert-hook-function ()
   (when (save-match-data
 	  (and password-mode
-	       (looking-back (password-mode-prefix-regex))
+	       (looking-back (password-mode-regexp))
 	       ;; prevent reinvoking 
 	       (= (match-beginning 2) (point))))
     (password-mode-insert-password (password-mode-read-passwd "Password: " t ""))))
+
+(defun password-mode-regexp ()
+  "regexp from custom variables `password-mode-password-prefix-regexs' and `password-mode-password-regex'"
+  (concat "\\(" (mapconcat 'identity  password-mode-password-prefix-regexs "\\|") "\\)"
+	  password-mode-password-regex))
 
 (defun password-mode-hide-all ()
   "Hide all passwords using overlays"
@@ -205,7 +210,7 @@ Lastly, the normal hook `password-mode-hook' is run using `run-hooks'.
   (save-excursion
     (goto-char (point-min))
     (while
-	(re-search-forward (password-mode-prefix-regex) (point-max) t)
+	(re-search-forward (password-mode-regexp) (point-max) t)
       (password-mode-hide (match-beginning 2) (match-end 2)))))
 
 (defun password-mode-discard-overlays (from to)
