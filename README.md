@@ -22,3 +22,26 @@ Example Usage
 (require 'password-mode)
 (add-hook 'text-mode-hook 'password-mode)
 ```
+
+How are passwords recognized?
+-----------------------------
+
+There is a prefix regexp used to find the text before the password:
+
+```lisp
+(defcustom password-mode-password-prefix-regexs
+  '("Password:\s+" "Passwort:\s+"))
+```
+
+There is also a regexp used to find the actual password:
+
+```lisp
+(defcustom password-mode-password-regex
+  "\\([[:graph:]]*\\)"
+```
+
+How can I change passwords?
+---------------------------
+
+When you try to changes a password (hidden by the overlay) an Emacs
+password prompt is invoked to read the actual password.
