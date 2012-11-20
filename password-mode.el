@@ -49,8 +49,10 @@
    'face 'font-lock-debug-face)
   "Always show the same text for passwords, so the length is not known")
 
-(defun password-mode-prefix-regex ()
-  (concat (regexp-opt password-mode-words 'words) ":\s+\\([[:graph:]]*\\)"))
+(defcustom password-mode-password-regex
+  "\\([[:graph:]]*\\)"
+  "Regex to match Passwords"
+  :type 'regexp)
 
 (defun password-mode-make-overlay (b e)
   "Return a new overlay in region defined by B and E."
