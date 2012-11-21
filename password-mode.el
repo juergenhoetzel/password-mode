@@ -40,7 +40,10 @@
 
 (defcustom password-mode-password-prefix-regexs
   '("[Pp]assword:?[[:space:]]+" "[Pp]asswort:?[[:space:]]+")
-  "Regexs recognized as password prefix"
+  "Regexps recognized as password prefix.
+
+Regexps must not contain parentheses for grouping, otherwise your
+match wouldn't work. Shy groups are OK."
   :type '(repeat (regexp :tag "Password Regex")))
 
 (defconst password-mode-shown-text
