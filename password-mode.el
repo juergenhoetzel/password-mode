@@ -39,7 +39,7 @@
   :group 'password-mode)
 
 (defcustom password-mode-password-prefix-regexs
-  '("Password:\s+" "Passwort:\s+")
+  '("[Pp]assword:?[[:space:]]+" "[Pp]asswort:?[[:space:]]+")
   "Regexs recognized as password prefix"
   :type '(repeat (regexp :tag "Password Regex")))
 
