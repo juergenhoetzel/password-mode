@@ -1,6 +1,6 @@
 ;;; password-mode.el --- Hide password text using overlays
 
-;; Copyright (C) 2012  Jürgen Hötzel
+;; Copyright (C) 2012, 2017  Jürgen Hötzel
 
 ;; Author: Jürgen Hötzel <juergen@archlinux.org>
 ;; Keywords: docs password passphrase
@@ -43,18 +43,18 @@
   "Regexps recognized as password prefix.
 
 Regexps must not contain parentheses for grouping, otherwise your
-match wouldn't work. Shy groups are OK."
+match wouldn't work.  Shy groups are OK."
   :type '(repeat (regexp :tag "Password Regex")))
 
 (defconst password-mode-shown-text
   (propertize
    (apply 'concat (make-list 5 "*"))
    'face 'font-lock-debug-face)
-  "Always show the same text for passwords, so the length is not known")
+  "Always show the same text for passwords, so the length is not known.")
 
 (defcustom password-mode-password-regex
   "\\([[:graph:]]*\\)"
-  "Regex to match Passwords"
+  "Regex to match Passwords."
   :type 'regexp)
 
 (defun password-mode-make-overlay (b e)
@@ -66,6 +66,7 @@ match wouldn't work. Shy groups are OK."
     ov))
 
 (defun password-mode-prompt-password (ov after start end &optional len)
+  "Prompt for new password."
   (when after
     (assert (zerop len))	;when doing insertion, len is always 0
     (let* ((inhibit-modification-hooks t)
@@ -78,6 +79,7 @@ match wouldn't work. Shy groups are OK."
       (clear-string new-password))))
 
 (defun password-mode-insert-password (new-password)
+  "Insert NEW-PASSWORD with hidden password overlay."
   ;; timing issue, first insert a dummy string, so the password is never visible
   (insert (apply 'concat (make-list (length new-password) "*")))
   (let ((ov (password-mode-make-overlay (- (point) (length new-password)) (point))))
@@ -90,7 +92,7 @@ match wouldn't work. Shy groups are OK."
 (defun password-mode-read-passwd (prompt &optional confirm initial)
   "Read a password, prompting with PROMPT.
 If optional CONFIRM is non-nil, read the password twice to make sure.
-Optional INITAL is a default password to use instead of empty input.
+Optional INITIAL is a default password to use instead of empty input.
 
 This function echoes `*' for each character that the user types.
 
@@ -119,6 +121,7 @@ by doing (clear-string STRING)."
 	  success))))
 
 (defun password-mode-read-passwd--internal (prompt &optional initial)
+  "Internal helper for reading password."
   (let ((pass initial)
 	;; Copy it so that add-text-properties won't modify
 	;; the object that was passed in by the caller.
@@ -170,7 +173,7 @@ by doing (clear-string STRING)."
 	pass))
 
 (defun password-mode-hide (b e)
-  "Hide password"
+  "Hide password."
   (overlay-put (password-mode-make-overlay b e) 'insert-in-front-hooks '(password-mode-prompt-password)))
 
 (define-minor-mode password-mode
@@ -194,20 +197,21 @@ Lastly, the normal hook `password-mode-hook' is run using `run-hooks'.
       (password-mode-discard-overlays (point-min) (point-max)))))
 
 (defun password-mode-insert-hook-function ()
+  "Function for editing hidden passwords."
   (when (save-match-data
 	  (and password-mode
-	       (looking-back (password-mode-regexp))
-	       ;; prevent reinvoking 
+	       (looking-back (password-mode-regexp) nil)
+	       ;; prevent reinvoking
 	       (= (match-beginning 2) (point))))
     (password-mode-insert-password (password-mode-read-passwd "Password: " t ""))))
 
 (defun password-mode-regexp ()
-  "regexp from custom variables `password-mode-password-prefix-regexs' and `password-mode-password-regex'"
+  "Regexp from custom variables `password-mode-password-prefix-regexs' and `password-mode-password-regex'."
   (concat "\\(" (mapconcat 'identity  password-mode-password-prefix-regexs "\\|") "\\)"
 	  password-mode-password-regex))
 
 (defun password-mode-hide-all ()
-  "Hide all passwords using overlays"
+  "Hide all passwords using overlays."
   (interactive)
   (password-mode-discard-overlays (point-min) (point-max))
   (save-excursion
