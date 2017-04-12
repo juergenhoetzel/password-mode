@@ -44,7 +44,8 @@
 
 Regexps must not contain parentheses for grouping, otherwise your
 match wouldn't work.  Shy groups are OK."
-  :type '(repeat (regexp :tag "Password Regex")))
+  :type '(repeat (regexp :tag "Password Regex"))
+  :group 'password-mode)
 
 (defconst password-mode-shown-text
   (propertize
@@ -55,7 +56,8 @@ match wouldn't work.  Shy groups are OK."
 (defcustom password-mode-password-regex
   "\\([[:graph:]]*\\)"
   "Regex to match Passwords."
-  :type 'regexp)
+  :type 'regexp
+  :group 'password-mode)
 
 (defun password-mode-make-overlay (b e)
   "Return a new overlay in region defined by B and E."
