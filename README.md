@@ -23,7 +23,7 @@ Example Usage
 (add-hook 'text-mode-hook 'password-mode)
 ```
 
-How are passwords recognized?
+How it works
 -----------------------------
 
 There is a prefix regexp used to find the text before the password:
@@ -40,8 +40,8 @@ There is also a regexp used to find the actual password:
   "\\([[:graph:]]*\\)"
 ```
 
-How can I change passwords?
----------------------------
+Change passwords
+----------------
 
 When you try to changes a password (hidden by the overlay) an Emacs
 password prompt is invoked to read the actual password.
