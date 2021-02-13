@@ -26,6 +26,7 @@
 
 ;;; Code:
 
+(require 'seq)
 
 ;;---------------------------------------------------------------------------
 ;; user-configurable variables
@@ -227,6 +228,15 @@ Lastly, the normal hook `password-mode-hook' is run using `run-hooks'.
   (dolist (ov (overlays-in from to))
     (when (overlay-get ov 'password-mode-length)
       (delete-overlay ov))))
+
+(defun password-mode-copy-as-kill ()
+  "Copy the next password at point to the `kill-ring'."
+  (interactive)
+  (let* ((overlays (nreverse (overlays-in (point) (point-max))))
+	 (pov (seq-find (lambda (ov) (overlay-get ov 'password-mode-length)) overlays)))
+    (when pov
+      (copy-region-as-kill (overlay-start pov) (+ (overlay-start pov) (overlay-get pov 'password-mode-length)))
+      (message "Password have been copied to the kill ring."))))
 
 (provide 'password-mode)
 
