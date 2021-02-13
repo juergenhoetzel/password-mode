@@ -45,3 +45,9 @@ How can I change passwords?
 
 When you try to changes a password (hidden by the overlay) an Emacs
 password prompt is invoked to read the actual password.
+
+Copy to `kill-ring`
+-------------------
+
+Use `(password-mode-copy-as-kill)` to copy the next password to the `kill-ring`.
+
