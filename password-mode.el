@@ -1,8 +1,11 @@
 ;;; password-mode.el --- Hide password text using overlays
 
-;; Copyright (C) 2012, 2017  Jürgen Hötzel
+;; Copyright (C) 2012-2021  Jürgen Hötzel
 
 ;; Author: Jürgen Hötzel <juergen@archlinux.org>
+;; URL: https://github.com/juergenhoetzel/password-mode
+;; Version: 1.0-snapshot
+;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: docs password passphrase
 
 ;; This program is free software; you can redistribute it and/or modify
