@@ -110,21 +110,21 @@ then it returns nil if the user types C-g, but `quit-flag' remains set.
 Once the caller uses the password, it can erase the password
 by doing (clear-string STRING)."
   (with-local-quit
-    (if confirm
-	(let (success)
-	  (while (not success)
-	    (let ((first (password-mode-read-passwd--internal prompt initial))
-		  (second (password-mode-read-passwd--internal "Confirm password: ")))
-	      (if (equal first second)
-		  (progn
-		    (and (arrayp second) (clear-string second))
-		    (setq success first))
-		(and (arrayp first) (clear-string first))
-		(and (arrayp second) (clear-string second))
-		(message "Password not repeated accurately; please start over")
-		(setq initial "")
-		(sit-for 1))))
-	  success))))
+    (when confirm
+      (let (success)
+	(while (not success)
+	  (let ((first (password-mode-read-passwd--internal prompt initial))
+		(second (password-mode-read-passwd--internal "Confirm password: ")))
+	    (if (equal first second)
+		(progn
+		  (and (arrayp second) (clear-string second))
+		  (setq success first))
+	      (and (arrayp first) (clear-string first))
+	      (and (arrayp second) (clear-string second))
+	      (message "Password not repeated accurately; please start over")
+	      (setq initial "")
+	      (sit-for 1))))
+	success))))
 
 (defun password-mode-read-passwd--internal (prompt &optional initial)
   "Internal helper for reading password."
