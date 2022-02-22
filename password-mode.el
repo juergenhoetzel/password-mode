@@ -182,6 +182,7 @@ by doing (clear-string STRING)."
   "Hide password."
   (overlay-put (password-mode-make-overlay b e) 'insert-in-front-hooks '(password-mode-prompt-password)))
 
+;;;###autoload
 (define-minor-mode password-mode
   "Minor mode to hide passwords
 With a prefix argument ARG, enable the mode if ARG is positive,
