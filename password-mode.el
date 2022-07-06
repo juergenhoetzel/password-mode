@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'seq)
+(require 'cl-lib)
 
 ;;---------------------------------------------------------------------------
 ;; user-configurable variables
@@ -74,7 +75,7 @@ match wouldn't work.  Shy groups are OK."
 (defun password-mode-prompt-password (ov after start end &optional len)
   "Prompt for new password."
   (when after
-    (assert (zerop len))	;when doing insertion, len is always 0
+    (cl-assert (zerop len))	;when doing insertion, len is always 0
     (let* ((inhibit-modification-hooks t)
 	   (insert-length (- (overlay-end ov) (overlay-start ov) (overlay-get ov 'password-mode-length)))
 	   (istr (buffer-substring (overlay-start ov) (+ (overlay-start ov) insert-length)))
